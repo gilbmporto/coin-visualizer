@@ -24,9 +24,10 @@ export default class CoinClass extends Component {
 
 	handleClick(e) {
 		e.preventDefault()
+		const randomPercent = 0.995 + Math.random() * 0.01
 		this.setState((oldState) => {
 			return {
-				price: oldState.price * 0.995,
+				price: oldState.price * randomPercent,
 			}
 		})
 	}
