@@ -1,27 +1,56 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
+  width: 200px;
+  padding: 10px;
   pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: white;
+}
+
+.App-header h1 {
+  margin-bottom: 18px;
+}
+
+.App-header hr {
+  color: white;
+  width: 22rem;
+}
+
+.main-container {
+  margin: 20px auto;
+  background-color: #282c34;
+  padding: 10px;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+
+.main-container .table-container {
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-link {
@@ -32,6 +61,7 @@ table {
   padding: 10px;
   border: 2px solid white;
   border-collapse: collapse;
+  border-radius: 10px;
 }
 
 table tr {
@@ -41,10 +71,25 @@ table tr {
 table td, table th {
   padding: 10px;
   border: 1px solid white;
+  font-size: 19px;
 }
 
 .coin-row {
   padding: 10px;
   border: 1px solid white;
   border-radius: 10px;
+}
+
+.coin-row button {
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  font-size: 19px;
+  background-color: darkblue;
+  color: white;
+  cursor: pointer;
+}
+
+.coin-row button:hover {
+  background-color: rgb(12, 12, 223);
 }
