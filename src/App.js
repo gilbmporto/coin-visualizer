@@ -1,9 +1,25 @@
 import "./App.css"
 // import Coin from "./components/Coin"
-import CoinClass from "./components/CoinClass"
+import CoinList from "./components/CoinList"
 import AccountBalance from "./components/AccountBalance"
-import logo from "./Assets/logo.png"
 import React from "react"
+import Header from "./components/Header"
+import styled from "styled-components"
+
+const MainContainer = styled.div`
+	margin: 20px auto;
+	background-color: #282c34;
+	padding: 10px;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+`
+
+const Div = styled.div`
+	text-align: center;
+`
 
 class App extends React.Component {
 	constructor(props) {
@@ -37,50 +53,13 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div className="App">
-				<header className="App-header">
-					<img src={logo} className="App-logo" alt="logo" />
-					<h1>Coin Exchange</h1>
-					<hr />
-				</header>
-				<div className="main-container">
+			<Div>
+				<Header />
+				<MainContainer>
 					<AccountBalance balance={this.state.balance} />
-					<div className="table-container">
-						<table>
-							<thead>
-								<tr>
-									<th>Name</th>
-									<th>Symbol</th>
-									<th>Price</th>
-									<th>Status</th>
-								</tr>
-							</thead>
-							<tbody>
-								<CoinClass
-									name={this.state.coinData[0].name}
-									symbol={this.state.coinData[0].symbol}
-									price={this.state.coinData[0].price}
-								/>
-								<CoinClass
-									name={this.state.coinData[1].name}
-									symbol={this.state.coinData[1].symbol}
-									price={this.state.coinData[1].price}
-								/>
-								<CoinClass
-									name={this.state.coinData[2].name}
-									symbol={this.state.coinData[2].symbol}
-									price={this.state.coinData[2].price}
-								/>
-								<CoinClass
-									name={this.state.coinData[3].name}
-									symbol={this.state.coinData[3].symbol}
-									price={this.state.coinData[3].price}
-								/>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+					<CoinList coinData={this.state.coinData} />
+				</MainContainer>
+			</Div>
 		)
 	}
 }

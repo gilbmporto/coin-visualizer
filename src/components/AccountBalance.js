@@ -5,6 +5,7 @@ const Div = styled.div`
 	padding: 10px;
 	margin-bottom: 20px;
 	width: 20vw;
+	min-width: 280px;
 	font-size: 22px;
 	display: flex;
 	flex-direction: row;
@@ -15,10 +16,6 @@ const Div = styled.div`
 
 export default class AccountBalance extends Component {
 	render() {
-		return (
-			<Div className="balance-div">
-				Account Balance: US$ {this.props.balance}
-			</Div>
-		)
+		return <Div>Account Balance: US$ {this.props.balance}</Div>
 	}
 }
