@@ -46,7 +46,8 @@ export default class CoinList extends Component {
 							<Th>Name</Th>
 							<Th>Symbol</Th>
 							<Th>Price</Th>
-							<Th>Status</Th>
+							<Th>Balance</Th>
+							<Th>Action</Th>
 						</Tr>
 					</TableHead>
 					<tbody>

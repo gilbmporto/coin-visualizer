@@ -54,6 +54,7 @@ export default class CoinClass extends Component {
 				<Td>{this.props.name}</Td>
 				<Td>{this.props.symbol}</Td>
 				<Td>US$ {this.props.price.toFixed(2)}</Td>
+				<Td>{this.props.balance}</Td>
 				<Td>
 					<form action="#" method="POST">
 						<Button onClick={this.handleClick}>Refresh</Button>
