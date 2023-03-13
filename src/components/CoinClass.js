@@ -27,9 +27,6 @@ const Button = styled.button`
 export default class CoinClass extends Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			price: this.props.price,
-		}
 		this.handleClick = this.handleClick.bind(this)
 	}
 
@@ -48,12 +45,7 @@ export default class CoinClass extends Component {
 
 	handleClick(e) {
 		e.preventDefault()
-		const randomPercent = 0.995 + Math.random() * 0.01
-		this.setState((oldState) => {
-			return {
-				price: oldState.price * randomPercent,
-			}
-		})
+		this.props.handleRefresh(this.props.symbol)
 	}
 
 	render() {
@@ -61,7 +53,7 @@ export default class CoinClass extends Component {
 			<Tr>
 				<Td>{this.props.name}</Td>
 				<Td>{this.props.symbol}</Td>
-				<Td>US$ {this.state.price.toFixed(2)}</Td>
+				<Td>US$ {this.props.price.toFixed(2)}</Td>
 				<Td>
 					<form action="#" method="POST">
 						<Button onClick={this.handleClick}>Refresh</Button>

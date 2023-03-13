@@ -51,8 +51,11 @@ export default class CoinList extends Component {
 					</TableHead>
 					<tbody>
 						{this.props.coinData.map((coin, index) => (
-							<CoinClass key={index} {...coin} /> // Wow, that I didn't know. So simple like that, eh? Awesome Zsolt knows everything.
-							// In order to explain what happens above, the spread operator alone creates the props with each key-value pair. Simple like that.
+							<CoinClass
+								key={index}
+								{...coin} // Wow, that I didn't know. So simple like that, eh? Awesome Zsolt knows everything.
+								handleRefresh={this.props.handleRefresh} // In order to explain what happens above, the spread operator alone creates the props with each key-value pair. Simple like that.
+							/>
 						))}
 					</tbody>
 				</Table>
