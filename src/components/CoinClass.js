@@ -24,6 +24,10 @@ const Button = styled.button`
 	}
 `
 
+const Img = styled.img`
+	width: 60px;
+`
+
 export default class CoinClass extends Component {
 	constructor(props) {
 		super(props)
@@ -53,7 +57,14 @@ export default class CoinClass extends Component {
 			<Tr>
 				<Td>{this.props.name}</Td>
 				<Td>{this.props.symbol}</Td>
-				<Td>US$ {this.props.price.toFixed(2)}</Td>
+				<Td>
+					<Img src={this.props.logo} alt="token logo" />
+				</Td>
+				<Td>
+					{typeof this.props.price === "number"
+						? `US$ ${this.props.price.toFixed(2)}`
+						: this.props.price}
+				</Td>
 				<Td>{this.props.balance}</Td>
 				<Td>
 					<form action="#" method="POST">

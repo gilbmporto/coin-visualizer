@@ -5,6 +5,7 @@ import AccountBalance from "./components/AccountBalance"
 import React from "react"
 import Header from "./components/Header"
 import styled from "styled-components"
+import axios from "axios"
 
 const MainContainer = styled.div`
 	margin: 20px auto;
@@ -21,6 +22,8 @@ const Div = styled.div`
 	text-align: center;
 `
 
+const COIN_DATA = 10
+
 class App extends React.Component {
 	constructor(props) {
 		super(props)
@@ -28,34 +31,64 @@ class App extends React.Component {
 			balance: 10000,
 			coinData: [
 				{
-					name: "Bitcoin",
-					symbol: "BTC",
-					price: 24000,
-					balance: 1.7,
-				},
-				{
-					name: "Ethereum",
-					symbol: "ETH",
-					price: 1500,
-					balance: 42,
-				},
-				{
-					name: "Litecoin",
-					symbol: "LTC",
-					price: 70,
-					balance: 100,
-				},
-				{
-					name: "USDTether",
-					symbol: "USDT",
-					price: 1,
-					balance: 100000,
+					name: "Loading...",
+					logo: "Loading...",
+					symbol: "Loading...",
+					price: "Loading...",
+					balance: " - ",
+					action: "Loading...",
 				},
 			],
 			showBalance: true,
 		}
 		this.handleRefresh = this.handleRefresh.bind(this)
 		this.updateShowBalance = this.updateShowBalance.bind(this)
+	}
+
+	componentDidMount = () => {
+		axios
+			.get("https://api.coinpaprika.com/v1/coins")
+			.then(async (res) => {
+				let newCoinData = res.data.slice(0, COIN_DATA).map((coin) => {
+					return {
+						key: coin.id,
+						name: coin.name,
+						rank: coin.rank,
+						symbol: coin.symbol,
+						price: 0,
+						balance: " - ",
+					}
+				})
+				return newCoinData
+			})
+			.then(async (info) => {
+				let response = await axios.get(
+					`https://api.coinpaprika.com/v1/tickers/`
+				)
+				let coinsPrices = response.data.slice(0, COIN_DATA).map((coin) => {
+					return coin.quotes.USD.price
+				})
+				console.log(coinsPrices)
+				let infoWithPrices = info.map((coin) => {
+					return {
+						...coin,
+						price: coinsPrices[coin.rank - 1],
+					}
+				})
+				console.log(infoWithPrices)
+				this.setState({ coinData: infoWithPrices })
+			})
+			// .then(async (lastInfo) => {
+			// 	for (let coin of lastInfo) {
+			// 		let response = await axios.get(
+			// 			`https://api.coinpaprika.com/v1/coins/${coin.key}`
+			// 		)
+			// 		let thisCoinLogo = response.data.logo
+			// 		lastInfo[coin.rank - 1].logo = thisCoinLogo
+			// 	}
+			// 	this.setState({ coinData: lastInfo })
+			// })
+			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
 	updateShowBalance(toggleBool) {
@@ -84,20 +117,43 @@ class App extends React.Component {
 		this.setState({ coinData: hiddenCoinData })
 	}
 
-	handleRefresh(symbol) {
-		const newCoinData = this.state.coinData.map((thisCoin) => {
-			let newPrice = thisCoin.price
-			if (thisCoin.symbol === symbol) {
-				const randomPercent = 0.995 + Math.random() * 0.01
-				newPrice = thisCoin.price * randomPercent
-			}
-			return {
-				...thisCoin,
-				price: newPrice,
-			}
+	handleRefresh = (symbol) => {
+		axios.get(`https://api.coinpaprika.com/v1/tickers`).then((res) => {
+			console.log(res.data)
+			let coinDataUpdatedPrices = this.state.coinData.map((coin) => {
+				let newPrice = coin.price
+				if (coin.symbol === symbol) {
+					for (let ticker of res.data) {
+						if (ticker.id === coin.key) {
+							newPrice = ticker.quotes.USD.price
+						}
+					}
+				}
+				return {
+					...coin,
+					price: newPrice,
+				}
+			})
+			console.log(coinDataUpdatedPrices)
+			return coinDataUpdatedPrices
 		})
-		console.log(newCoinData)
-		this.setState({ coinData: newCoinData })
+		//.then((info) => this.setState({ coinData: info }))
+
+		// const newCoinData = this.state.coinData.map(async (thisCoin) => {
+		// 	let newPrice = thisCoin.price
+		// 	if (thisCoin.symbol === symbol) {
+		// 		let response = await axios.get(
+		// 			`https://api.coinpaprika.com/v1/tickers/${thisCoin.key}`
+		// 		)
+		// 		let thisCoinPrice = await response.data.quotes.USD.price
+		// 		newPrice = thisCoinPrice
+		// 		return {
+		// 			...thisCoin,
+		// 			price: newPrice,
+		// 		}
+		// 	}
+		// })
+		// console.log(newCoinData)
 	}
 
 	render() {
