@@ -68,26 +68,21 @@ class App extends React.Component {
 				let coinsPrices = response.data.slice(0, COIN_DATA).map((coin) => {
 					return coin.quotes.USD.price
 				})
-				console.log(coinsPrices)
 				let infoWithPrices = info.map((coin) => {
 					return {
 						...coin,
 						price: coinsPrices[coin.rank - 1],
 					}
 				})
-				console.log(infoWithPrices)
-				this.setState({ coinData: infoWithPrices })
+				return infoWithPrices
 			})
-			// .then(async (lastInfo) => {
-			// 	for (let coin of lastInfo) {
-			// 		let response = await axios.get(
-			// 			`https://api.coinpaprika.com/v1/coins/${coin.key}`
-			// 		)
-			// 		let thisCoinLogo = response.data.logo
-			// 		lastInfo[coin.rank - 1].logo = thisCoinLogo
-			// 	}
-			// 	this.setState({ coinData: lastInfo })
-			// })
+			.then(async (lastInfo) => {
+				for (let coin of lastInfo) {
+					let logoImage = `https://static.coinpaprika.com/coin/${coin.key}/logo.png`
+					lastInfo[coin.rank - 1].logo = logoImage
+				}
+				this.setState({ coinData: lastInfo })
+			})
 			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
@@ -118,42 +113,28 @@ class App extends React.Component {
 	}
 
 	handleRefresh = (symbol) => {
-		axios.get(`https://api.coinpaprika.com/v1/tickers`).then((res) => {
-			console.log(res.data)
-			let coinDataUpdatedPrices = this.state.coinData.map((coin) => {
-				let newPrice = coin.price
-				if (coin.symbol === symbol) {
-					for (let ticker of res.data) {
-						if (ticker.id === coin.key) {
-							newPrice = ticker.quotes.USD.price
+		axios
+			.get(`https://api.coinpaprika.com/v1/tickers`)
+			.then((res) => {
+				let coinDataUpdatedPrices = this.state.coinData.map((coin) => {
+					let newPrice = coin.price
+					console.log(`${coin.name} price then:` + newPrice)
+					if (coin.symbol === symbol) {
+						for (let ticker of res.data) {
+							if (ticker.id === coin.key) {
+								newPrice = ticker.quotes.USD.price
+							}
 						}
 					}
-				}
-				return {
-					...coin,
-					price: newPrice,
-				}
+					console.log(`${coin.name} price now:` + newPrice)
+					return {
+						...coin,
+						price: newPrice,
+					}
+				})
+				return coinDataUpdatedPrices
 			})
-			console.log(coinDataUpdatedPrices)
-			return coinDataUpdatedPrices
-		})
-		//.then((info) => this.setState({ coinData: info }))
-
-		// const newCoinData = this.state.coinData.map(async (thisCoin) => {
-		// 	let newPrice = thisCoin.price
-		// 	if (thisCoin.symbol === symbol) {
-		// 		let response = await axios.get(
-		// 			`https://api.coinpaprika.com/v1/tickers/${thisCoin.key}`
-		// 		)
-		// 		let thisCoinPrice = await response.data.quotes.USD.price
-		// 		newPrice = thisCoinPrice
-		// 		return {
-		// 			...thisCoin,
-		// 			price: newPrice,
-		// 		}
-		// 	}
-		// })
-		// console.log(newCoinData)
+			.then((info) => this.setState({ coinData: info }))
 	}
 
 	render() {
