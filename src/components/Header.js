@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import logo from "../Assets/logo.png"
 import styled from "styled-components"
 
@@ -11,6 +11,9 @@ const AppHeader = styled.header`
 	align-items: center;
 	font-size: 2rem;
 	color: white;
+	width: 100%;
+	text-align: center;
+	margin: 0 auto;
 `
 
 const Img = styled.img`
@@ -22,16 +25,15 @@ const Hr = styled.hr`
 	margin-top: 20px;
 	color: white;
 	width: 30rem;
+	margin-bottom: 30px;
 `
 
-export default class Header extends Component {
-	render() {
-		return (
-			<AppHeader>
-				<Img src={logo} className="App-logo" alt="logo" />
-				<h1>Gil's Coin Exchange</h1>
-				<Hr />
-			</AppHeader>
-		)
-	}
+export default function Header() {
+	return (
+		<AppHeader>
+			<Img src={logo} className="App-logo" alt="logo" />
+			<h1>Gil's Coin Exchange</h1>
+			<Hr />
+		</AppHeader>
+	)
 }

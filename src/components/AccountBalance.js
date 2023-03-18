@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import styled from "styled-components"
 
 const Div = styled.div`
@@ -31,27 +31,19 @@ const BalanceButton = styled.button`
 	}
 `
 
-export default class AccountBalance extends Component {
-	constructor(props) {
-		super(props)
-		this.toggleBalance = this.toggleBalance.bind(this)
-	}
-
-	toggleBalance(e) {
+export default function AccountBalance(props) {
+	const toggleBalance = (e) => {
 		e.preventDefault()
-		this.props.updateShowBalance(this.props.showBalance)
+		props.updateShowBalance(props.showBalance)
 	}
 
-	render() {
-		let buttonText =
-			this.props.showBalance === true ? "Hide Balance" : "Show Balance"
+	let buttonText = props.showBalance === true ? "Hide Balance" : "Show Balance"
 
-		return (
-			<Div>
-				Account Balance: US$
-				{this.props.showBalance === true ? this.props.balance : " - "}
-				<BalanceButton onClick={this.toggleBalance}>{buttonText}</BalanceButton>
-			</Div>
-		)
-	}
+	return (
+		<Div>
+			Account Balance: US$
+			{props.showBalance === true ? props.balance : " - "}
+			<BalanceButton onClick={toggleBalance}>{buttonText}</BalanceButton>
+		</Div>
+	)
 }

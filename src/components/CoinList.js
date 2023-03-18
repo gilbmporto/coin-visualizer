@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import CoinClass from "./CoinClass"
+import Coin from "./Coin"
 import styled from "styled-components"
 
 const TableContainer = styled.div`
@@ -32,36 +32,30 @@ const Th = styled.th`
 	font-size: 19px;
 `
 
-export default class CoinList extends Component {
-	constructor(props) {
-		super(props)
-	}
-
-	render() {
-		return (
-			<TableContainer>
-				<Table>
-					<TableHead>
-						<Tr>
-							<Th>Name</Th>
-							<Th>Symbol</Th>
-							<Th>Logo</Th>
-							<Th>Price</Th>
-							<Th>Balance</Th>
-							<Th>Action</Th>
-						</Tr>
-					</TableHead>
-					<tbody>
-						{this.props.coinData.map((coin, index) => (
-							<CoinClass
-								key={index}
-								{...coin} // Wow, that I didn't know. So simple like that, eh? Awesome Zsolt knows everything.
-								handleRefresh={this.props.handleRefresh} // In order to explain what happens above, the spread operator alone creates the props with each key-value pair. Simple like that.
-							/>
-						))}
-					</tbody>
-				</Table>
-			</TableContainer>
-		)
-	}
+export default function CoinList(props) {
+	return (
+		<TableContainer>
+			<Table>
+				<TableHead>
+					<Tr>
+						<Th>Name</Th>
+						<Th>Symbol</Th>
+						<Th>Logo</Th>
+						<Th>Price</Th>
+						<Th>Balance</Th>
+						<Th>Action</Th>
+					</Tr>
+				</TableHead>
+				<tbody>
+					{props.coinData.map((coin, index) => (
+						<Coin
+							key={index}
+							{...coin} // Wow, that I didn't know. So simple like that, eh? Awesome Zsolt knows everything.
+							handleRefresh={props.handleRefresh} // In order to explain what happens above, the spread operator alone creates the props with each key-value pair. Simple like that.
+						/>
+					))}
+				</tbody>
+			</Table>
+		</TableContainer>
+	)
 }

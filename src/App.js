@@ -1,5 +1,4 @@
 import "./App.css"
-// import Coin from "./components/Coin"
 import CoinList from "./components/CoinList"
 import AccountBalance from "./components/AccountBalance"
 import React from "react"
@@ -20,9 +19,13 @@ const MainContainer = styled.div`
 
 const Div = styled.div`
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 `
 
-const COIN_DATA = 10
+const COIN_DATA = 30
 
 class App extends React.Component {
 	constructor(props) {
@@ -140,8 +143,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<Div>
-				<Header />
 				<MainContainer>
+					<Header />
 					<AccountBalance
 						balance={this.state.balance}
 						showBalance={this.state.showBalance}
