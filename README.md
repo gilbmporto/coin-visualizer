@@ -1,3 +1,11 @@
+# Hello There!
+
+- This is the version 1.0.0 of my app, which is called Cryptocoin Visualizer.
+
+- In order to access this app, you just need to go the following website: https://cryptocoin-visualizer.vercel.app/
+
+- Have fun! 🤠
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,11 +76,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
----
-
-## Hello There!
-
-- In order to access this app, you just need to go the following website: https://cryptocoin-visualizer.vercel.app/
-
-- Have fun! 🤠
