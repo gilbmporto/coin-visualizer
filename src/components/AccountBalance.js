@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Div = styled.div`
 	padding: 10px;
 	margin-bottom: 20px;
-	width: 28vw;
+	width: 35vw;
 	min-width: 280px;
 	font-size: 22px;
 	display: flex;

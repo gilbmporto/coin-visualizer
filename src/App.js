@@ -1,7 +1,7 @@
 import "./App.css"
 import CoinList from "./components/CoinList"
 import AccountBalance from "./components/AccountBalance"
-import React from "react"
+import React, { useState, useEffect } from "react"
 import Header from "./components/Header"
 import styled from "styled-components"
 import axios from "axios"
@@ -27,28 +27,29 @@ const Div = styled.div`
 
 const COIN_DATA = 30
 
-class App extends React.Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			balance: 10000,
-			coinData: [
-				{
-					name: "Loading...",
-					logo: "Loading...",
-					symbol: "Loading...",
-					price: "Loading...",
-					balance: " - ",
-					action: "Loading...",
-				},
-			],
-			showBalance: true,
-		}
-		this.handleRefresh = this.handleRefresh.bind(this)
-		this.updateShowBalance = this.updateShowBalance.bind(this)
-	}
+function App(props) {
+	const [balance, setBalance] = useState(10000)
+	const [showBalance, setShowBalance] = useState(true)
+	const [coinData, setCoinData] = useState([
+		{
+			name: "Loading...",
+			logo: "Loading...",
+			symbol: "Loading...",
+			price: "Loading...",
+			balance: " - ",
+			action: "Loading...",
+		},
+	])
 
-	componentDidMount = () => {
+	useEffect(() => {
+		console.log(coinData)
+		if (coinData.length <= 1) {
+			componentDidMount()
+		}
+	}, [])
+
+	const componentDidMount = async () => {
+		console.time("Fetch Coin Data")
 		axios
 			.get("https://api.coinpaprika.com/v1/coins")
 			.then(async (res) => {
@@ -84,20 +85,23 @@ class App extends React.Component {
 					let logoImage = `https://static.coinpaprika.com/coin/${coin.key}/logo.png`
 					lastInfo[coin.rank - 1].logo = logoImage
 				}
-				this.setState({ coinData: lastInfo })
+				setCoinData(lastInfo)
+				console.log(lastInfo)
+				console.log(coinData)
+				console.timeEnd("Fetch Coin Data")
 			})
 			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
-	updateShowBalance(toggleBool) {
+	const updateShowBalance = (toggleBool) => {
 		let showBalanceBool = toggleBool
 		showBalanceBool === true
 			? (showBalanceBool = false)
 			: (showBalanceBool = true)
-		this.setState({ showBalance: showBalanceBool })
+		setShowBalance(showBalanceBool)
 
-		let hiddenCoinData = this.state.coinData.map((coin) => {
-			if (showBalanceBool === false) {
+		let hiddenCoinData = coinData.map((coin) => {
+			if (showBalance === false) {
 				return {
 					...coin,
 					hiddenBalance: coin.balance,
@@ -112,16 +116,16 @@ class App extends React.Component {
 			}
 		})
 
-		this.setState({ coinData: hiddenCoinData })
+		setCoinData(hiddenCoinData)
 	}
 
-	handleRefresh = (symbol) => {
+	const handleRefresh = (symbol) => {
 		axios
 			.get(`https://api.coinpaprika.com/v1/tickers`)
 			.then((res) => {
-				let coinDataUpdatedPrices = this.state.coinData.map((coin) => {
+				let coinDataUpdatedPrices = coinData.map((coin) => {
 					let newPrice = coin.price
-					console.log(`${coin.name} price then:` + newPrice)
+					console.log(`${coin.name} price then: ` + newPrice)
 					if (coin.symbol === symbol) {
 						for (let ticker of res.data) {
 							if (ticker.id === coin.key) {
@@ -129,7 +133,7 @@ class App extends React.Component {
 							}
 						}
 					}
-					console.log(`${coin.name} price now:` + newPrice)
+					console.log(`${coin.name} price now: ` + newPrice)
 					return {
 						...coin,
 						price: newPrice,
@@ -137,27 +141,23 @@ class App extends React.Component {
 				})
 				return coinDataUpdatedPrices
 			})
-			.then((info) => this.setState({ coinData: info }))
+			.then((info) => setCoinData(info))
 	}
 
-	render() {
-		return (
-			<Div>
-				<MainContainer>
-					<Header />
-					<AccountBalance
-						balance={this.state.balance}
-						showBalance={this.state.showBalance}
-						updateShowBalance={this.updateShowBalance}
-					/>
-					<CoinList
-						coinData={this.state.coinData}
-						handleRefresh={this.handleRefresh}
-					/>
-				</MainContainer>
-			</Div>
-		)
-	}
+	return (
+		<Div>
+			<MainContainer>
+				<Header />
+				<AccountBalance
+					balance={balance}
+					setBalance={setBalance}
+					showBalance={showBalance}
+					updateShowBalance={updateShowBalance}
+				/>
+				<CoinList coinData={coinData} handleRefresh={handleRefresh} />
+			</MainContainer>
+		</Div>
+	)
 }
 
 export default App
