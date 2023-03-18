@@ -130,7 +130,7 @@ function App(props) {
 		// 	}
 		// })
 
-		setCoinData(hiddenCoinData)
+		// setCoinData(hiddenCoinData)
 	}
 
 	const handleRefresh = async () => {
