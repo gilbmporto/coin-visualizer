@@ -46,12 +46,12 @@ export default function Coin(props) {
 					? `US$ ${props.price.toFixed(2)}`
 					: props.price}
 			</Td>
-			<Td>{props.balance}</Td>
+			{/* <Td>{props.balance}</Td>
 			<Td>
 				<form action="#" method="POST">
 					<Button onClick={handleClick}>Refresh</Button>
 				</form>
-			</Td>
+			</Td> */}
 		</Tr>
 	)
 }

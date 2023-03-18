@@ -5,6 +5,7 @@ const Div = styled.div`
 	padding: 10px;
 	margin-bottom: 20px;
 	width: 35vw;
+	max-width: 500px;
 	min-width: 280px;
 	font-size: 22px;
 	display: flex;
@@ -22,7 +23,7 @@ const BalanceButton = styled.button`
 	color: white;
 	border: 2px solid white;
 	border-radius: 15px;
-	padding: 10px;
+	padding: 12px;
 	width: 200px;
 	text-align: center;
 	cursor: pointer;

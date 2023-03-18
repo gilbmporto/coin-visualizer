@@ -42,8 +42,8 @@ export default function CoinList(props) {
 						<Th>Symbol</Th>
 						<Th>Logo</Th>
 						<Th>Price</Th>
-						<Th>Balance</Th>
-						<Th>Action</Th>
+						{/* <Th>Balance</Th>
+						<Th>Action</Th> */}
 					</Tr>
 				</TableHead>
 				<tbody>

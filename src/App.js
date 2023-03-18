@@ -25,7 +25,21 @@ const Div = styled.div`
 	justify-content: center;
 `
 
-const COIN_DATA = 30
+const RefreshButton = styled.button`
+	margin: 10px auto;
+	padding: 15px;
+	border: 2px solid white;
+	border-radius: 15px;
+	font-size: 22px;
+	background-color: darkblue;
+	color: white;
+	cursor: pointer;
+	&:hover {
+		background-color: #3131e9;
+	}
+`
+
+const COIN_DATA = 45
 
 function App(props) {
 	const [balance, setBalance] = useState(10000)
@@ -60,7 +74,7 @@ function App(props) {
 						rank: coin.rank,
 						symbol: coin.symbol,
 						price: 0,
-						balance: " - ",
+						// balance: " - ",
 					}
 				})
 				return newCoinData
@@ -100,48 +114,49 @@ function App(props) {
 			: (showBalanceBool = true)
 		setShowBalance(showBalanceBool)
 
-		let hiddenCoinData = coinData.map((coin) => {
-			if (showBalance === false) {
-				return {
-					...coin,
-					hiddenBalance: coin.balance,
-					balance: "-",
-				}
-			} else {
-				return {
-					...coin,
-					balance: coin.hiddenBalance,
-					hiddenBalance: "-",
-				}
-			}
-		})
+		// let hiddenCoinData = coinData.map((coin) => {
+		// 	if (showBalance === false) {
+		// 		return {
+		// 			...coin,
+		// 			hiddenBalance: coin.balance,
+		// 			balance: "-",
+		// 		}
+		// 	} else {
+		// 		return {
+		// 			...coin,
+		// 			balance: coin.hiddenBalance,
+		// 			hiddenBalance: "-",
+		// 		}
+		// 	}
+		// })
 
 		setCoinData(hiddenCoinData)
 	}
 
-	const handleRefresh = (symbol) => {
+	const handleRefresh = async () => {
 		axios
 			.get(`https://api.coinpaprika.com/v1/tickers`)
 			.then((res) => {
 				let coinDataUpdatedPrices = coinData.map((coin) => {
+					console.log(coin)
 					let newPrice = coin.price
-					console.log(`${coin.name} price then: ` + newPrice)
-					if (coin.symbol === symbol) {
-						for (let ticker of res.data) {
-							if (ticker.id === coin.key) {
-								newPrice = ticker.quotes.USD.price
-							}
+					console.log(`${coin.symbol} price then: ` + newPrice)
+					for (let ticker of res.data) {
+						if (ticker.id === coin.key) {
+							newPrice = ticker.quotes.USD.price
+							console.log(`${coin.symbol} price now: ` + newPrice)
 						}
 					}
-					console.log(`${coin.name} price now: ` + newPrice)
 					return {
 						...coin,
 						price: newPrice,
 					}
 				})
+				console.log(coinDataUpdatedPrices)
 				return coinDataUpdatedPrices
 			})
 			.then((info) => setCoinData(info))
+			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
 	return (
@@ -154,7 +169,8 @@ function App(props) {
 					showBalance={showBalance}
 					updateShowBalance={updateShowBalance}
 				/>
-				<CoinList coinData={coinData} handleRefresh={handleRefresh} />
+				<RefreshButton onClick={handleRefresh}>Refresh Prices</RefreshButton>
+				<CoinList coinData={coinData} />
 			</MainContainer>
 		</Div>
 	)
