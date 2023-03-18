@@ -4,9 +4,12 @@ import styled from "styled-components"
 
 const TableContainer = styled.div`
 	margin: 20px auto;
+	min-width: 300px;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
+	text-align: center;
 `
 
 const Table = styled.table`
@@ -14,10 +17,12 @@ const Table = styled.table`
 	border: 2px solid white;
 	border-collapse: collapse;
 	border-radius: 10px;
+	text-align: center;
+	margin: 0 auto;
 `
 
 const TableHead = styled.thead`
-	padding: 10px;
+	padding: 8px;
 	border: 1px solid white;
 	font-size: 19px;
 `

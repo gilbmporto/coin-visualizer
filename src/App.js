@@ -15,19 +15,28 @@ const MainContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	/* @media screen and (max-width: 500px) {
+		max-width: 435px;
+		width: 414px;
+		min-width: 288px;
+		margin: 20px auto;
+		background-color: #282c34;
+		padding: 10px;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	} */
 `
 
 const Div = styled.div`
 	text-align: center;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 `
 
 const RefreshButton = styled.button`
 	margin: 10px auto;
-	padding: 15px;
+	padding: 12px;
 	border: 2px solid white;
 	border-radius: 15px;
 	font-size: 22px;
@@ -169,7 +178,7 @@ function App(props) {
 					showBalance={showBalance}
 					updateShowBalance={updateShowBalance}
 				/>
-				<RefreshButton onClick={handleRefresh}>Refresh Prices</RefreshButton>
+				<RefreshButton onClick={handleRefresh}>🌀 Refresh Prices</RefreshButton>
 				<CoinList coinData={coinData} />
 			</MainContainer>
 		</Div>

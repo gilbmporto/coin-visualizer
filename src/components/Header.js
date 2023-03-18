@@ -14,6 +14,11 @@ const AppHeader = styled.header`
 	width: 100%;
 	text-align: center;
 	margin: 0 auto;
+	@media screen and (max-width: 500px) {
+		width: 100%;
+		min-width: 300px;
+		text-align: center;
+	}
 `
 
 const Img = styled.img`
@@ -24,7 +29,8 @@ const Img = styled.img`
 const Hr = styled.hr`
 	margin-top: 20px;
 	color: white;
-	width: 30rem;
+	width: 30%;
+	min-width: 300px;
 	margin-bottom: 30px;
 `
 

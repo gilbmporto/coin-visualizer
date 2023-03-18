@@ -6,7 +6,7 @@ const Tr = styled.tr`
 `
 
 const Td = styled.td`
-	padding: 10px;
+	padding: 8px;
 	border: 1px solid white;
 	font-size: 19px;
 `

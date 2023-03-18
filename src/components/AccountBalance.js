@@ -14,6 +14,11 @@ const Div = styled.div`
 	align-items: center;
 	border: 1px solid white;
 	border-radius: 15px;
+	@media screen and (max-width: 500px) {
+		width: 35vw;
+		min-width: 300px;
+		text-align: center;
+	}
 `
 
 const BalanceButton = styled.button`
@@ -38,7 +43,8 @@ export default function AccountBalance(props) {
 		props.updateShowBalance(props.showBalance)
 	}
 
-	let buttonText = props.showBalance === true ? "Hide Balance" : "Show Balance"
+	let buttonText =
+		props.showBalance === true ? "🤫 Hide Balance" : "👀 Show Balance"
 
 	return (
 		<Div>
