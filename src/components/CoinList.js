@@ -47,8 +47,12 @@ export default function CoinList(props) {
 						<Th>Symbol</Th>
 						<Th>Logo</Th>
 						<Th>Price</Th>
-						{/* <Th>Balance</Th>
-						<Th>Action</Th> */}
+						{props.userLoggedIn ? (
+							<>
+								<Th>Balance</Th>
+								<Th>Actions</Th>
+							</>
+						) : null}
 					</Tr>
 				</TableHead>
 				<tbody>
@@ -57,6 +61,9 @@ export default function CoinList(props) {
 							key={index}
 							{...coin} // Wow, that I didn't know. So simple like that, eh? Awesome Zsolt knows everything.
 							handleRefresh={props.handleRefresh} // In order to explain what happens above, the spread operator alone creates the props with each key-value pair. Simple like that.
+							userLoggedIn={props.userLoggedIn}
+							handleBuy={props.handleBuy}
+							handleSell={props.handleSell}
 						/>
 					))}
 				</tbody>

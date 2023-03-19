@@ -48,19 +48,18 @@ const RefreshButton = styled.button`
 	}
 `
 
-const COIN_DATA = 45
+const COIN_DATA = 10
 
 function App(props) {
-	const [balance, setBalance] = useState(10000)
+	const [balance, setBalance] = useState(150000)
 	const [showBalance, setShowBalance] = useState(true)
+	const [userLoggedIn, setUserLoggedIn] = useState(false)
 	const [coinData, setCoinData] = useState([
 		{
 			name: "Loading...",
 			logo: "Loading...",
 			symbol: "Loading...",
 			price: "Loading...",
-			balance: " - ",
-			action: "Loading...",
 		},
 	])
 
@@ -71,6 +70,28 @@ function App(props) {
 		}
 	}, [])
 
+	useEffect(() => {
+		if (userLoggedIn) {
+			addBalanceAndActions()
+		}
+	}, [userLoggedIn])
+
+	const addBalanceAndActions = async () => {
+		console.log(coinData)
+		let completeCoinData = coinData.map((coin) => {
+			return {
+				...coin,
+				balance: 0,
+				actions: {
+					buy: handleBuy,
+					sell: handleSell,
+				},
+			}
+		})
+		console.log(completeCoinData)
+		setCoinData(completeCoinData)
+	}
+
 	const componentDidMount = async () => {
 		console.time("Fetch Coin Data")
 		axios
@@ -78,12 +99,11 @@ function App(props) {
 			.then(async (res) => {
 				let newCoinData = res.data.slice(0, COIN_DATA).map((coin) => {
 					return {
-						key: coin.id,
+						id: coin.id,
 						name: coin.name,
 						rank: coin.rank,
 						symbol: coin.symbol,
 						price: 0,
-						// balance: " - ",
 					}
 				})
 				return newCoinData
@@ -105,12 +125,10 @@ function App(props) {
 			})
 			.then(async (lastInfo) => {
 				for (let coin of lastInfo) {
-					let logoImage = `https://static.coinpaprika.com/coin/${coin.key}/logo.png`
+					let logoImage = `https://static.coinpaprika.com/coin/${coin.id}/logo.png`
 					lastInfo[coin.rank - 1].logo = logoImage
 				}
 				setCoinData(lastInfo)
-				console.log(lastInfo)
-				console.log(coinData)
 				console.timeEnd("Fetch Coin Data")
 			})
 			.catch((err) => console.log(`${err.name}: ${err.message}`))
@@ -146,14 +164,12 @@ function App(props) {
 		axios
 			.get(`https://api.coinpaprika.com/v1/tickers`)
 			.then((res) => {
+				let bitcoinPrice = coinData[0].price
 				let coinDataUpdatedPrices = coinData.map((coin) => {
-					console.log(coin)
 					let newPrice = coin.price
-					console.log(`${coin.symbol} price then: ` + newPrice)
 					for (let ticker of res.data) {
-						if (ticker.id === coin.key) {
+						if (ticker.id === coin.id) {
 							newPrice = ticker.quotes.USD.price
-							console.log(`${coin.symbol} price now: ` + newPrice)
 						}
 					}
 					return {
@@ -161,25 +177,92 @@ function App(props) {
 						price: newPrice,
 					}
 				})
-				console.log(coinDataUpdatedPrices)
+				if (coinDataUpdatedPrices[0].price == bitcoinPrice) {
+					alert("You are already at the latest price until now!")
+				}
 				return coinDataUpdatedPrices
 			})
 			.then((info) => setCoinData(info))
 			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
+	const handleAccess = async (loginStatus) => {
+		setUserLoggedIn(loginStatus)
+	}
+
+	const handleBuy = (id) => {
+		// console.log(coinData)
+		// console.log(id)
+		let newCoinData = coinData.map((coin) => {
+			let newCoinBalance = coin.balance
+			// console.log(`${coin.symbol} balance before: ` + newCoinBalance)
+			let newBalance = balance
+			if (coin.id === id) {
+				if (balance >= coin.price) {
+					newCoinBalance++
+					newBalance -= coin.price
+					setBalance(newBalance.toFixed(2))
+				} else {
+					alert("Not enough funds!")
+				}
+			}
+			// console.log(`${coin.symbol} balance then: ` + newCoinBalance)
+			return {
+				...coin,
+				balance: Number(newCoinBalance),
+			}
+		})
+		// console.log(newCoinData)
+		setCoinData(newCoinData)
+	}
+
+	const handleSell = async (id) => {
+		// console.log(coinData)
+		// console.log(id)
+		let newCoinData = coinData.map((coin) => {
+			let newCoinBalance = parseInt(coin.balance)
+			// console.log("balance now: " + balance)
+			let newBalance = parseFloat(balance)
+			if (coin.id === id) {
+				if (coin.balance > 0) {
+					newCoinBalance--
+					newBalance = parseFloat(newBalance + parseFloat(coin.price)).toFixed(
+						2
+					)
+					// console.log("New balance: " + newBalance)
+					setBalance(newBalance)
+				} else {
+					alert("Not enough tokens!")
+				}
+			}
+			return {
+				...coin,
+				balance: Number(newCoinBalance),
+			}
+		})
+		// console.log(newCoinData)
+		setCoinData(newCoinData)
+	}
+
 	return (
 		<Div>
 			<MainContainer>
-				<Header />
-				<AccountBalance
-					balance={balance}
-					setBalance={setBalance}
-					showBalance={showBalance}
-					updateShowBalance={updateShowBalance}
-				/>
+				<Header userLoggedIn={userLoggedIn} handleAccess={handleAccess} />
+				{userLoggedIn ? (
+					<AccountBalance
+						balance={balance}
+						setBalance={setBalance}
+						showBalance={showBalance}
+						updateShowBalance={updateShowBalance}
+					/>
+				) : null}
 				<RefreshButton onClick={handleRefresh}>🌀 Refresh Prices</RefreshButton>
-				<CoinList coinData={coinData} />
+				<CoinList
+					coinData={coinData}
+					userLoggedIn={userLoggedIn}
+					handleBuy={handleBuy}
+					handleSell={handleSell}
+				/>
 			</MainContainer>
 		</Div>
 	)

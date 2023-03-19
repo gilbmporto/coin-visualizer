@@ -31,15 +31,37 @@ const Hr = styled.hr`
 	color: white;
 	width: 30%;
 	min-width: 300px;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 `
 
-export default function Header() {
+const LoginButton = styled.button`
+	background-color: #674ea7;
+	color: white;
+	border: 2px solid white;
+	border-radius: 10px;
+	padding: 10px;
+	font-size: 19px;
+	margin: 20px auto;
+	&:hover {
+		background-color: #8e7cc3;
+	}
+`
+
+export default function Header({ userLoggedIn, handleAccess }) {
+	const handleThisClick = () => {
+		let loginStatus = !userLoggedIn
+		console.log(loginStatus)
+		handleAccess(loginStatus)
+	}
+
 	return (
 		<AppHeader>
 			<Img src={logo} className="App-logo" alt="logo" />
 			<h1>Gil's Coin Exchange</h1>
 			<Hr />
+			<LoginButton onClick={handleThisClick}>
+				{userLoggedIn ? `Log out` : `Log in`}
+			</LoginButton>
 		</AppHeader>
 	)
 }

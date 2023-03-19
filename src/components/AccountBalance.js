@@ -48,8 +48,9 @@ export default function AccountBalance(props) {
 
 	return (
 		<Div>
-			Account Balance: US$
-			{props.showBalance === true ? props.balance : " - "}
+			{props.showBalance === true
+				? `Account Balance: US$ ${props.balance}`
+				: `Account Balance: US$ -`}
 			<BalanceButton onClick={toggleBalance}>{buttonText}</BalanceButton>
 		</Div>
 	)

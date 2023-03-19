@@ -9,19 +9,47 @@ const Td = styled.td`
 	padding: 8px;
 	border: 1px solid white;
 	font-size: 19px;
+	/* display: flex;
+	flex-direction: row;
+	justify-content: center; */
 `
 
-const Button = styled.button`
-	padding: 10px;
+const BuyButton = styled.button`
+	font-size: 14px;
+	padding: 10px 15px;
+	margin: 10px 5px;
 	border: 1px solid white;
 	border-radius: 10px;
-	font-size: 19px;
-	background-color: darkblue;
+	font-size: 12px;
+	background-color: darkgreen;
 	color: white;
 	cursor: pointer;
 	&:hover {
-		background-color: #3131e9;
+		background-color: #8fce00;
 	}
+`
+
+const SellButton = styled.button`
+	font-size: 14px;
+	padding: 10px 15px;
+	margin: 10px 5px;
+	border: 1px solid white;
+	border-radius: 10px;
+	font-size: 12px;
+	background-color: darkred;
+	color: white;
+	cursor: pointer;
+	&:hover {
+		background-color: #f44336;
+	}
+`
+
+const DivBSBtns = styled.div`
+	padding: 5px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 `
 
 const Img = styled.img`
@@ -29,9 +57,21 @@ const Img = styled.img`
 `
 
 export default function Coin(props) {
-	const handleClick = (e) => {
+	// const handleClick = (e) => {
+	// 	e.preventDefault()
+	// 	props.handleRefresh(props.symbol)
+	// }
+
+	const handleBuyClick = (e) => {
 		e.preventDefault()
-		props.handleRefresh(props.symbol)
+		console.log(props.id)
+		props.handleBuy(props.id)
+	}
+
+	const handleSellClick = (e) => {
+		e.preventDefault()
+		console.log(props.id)
+		props.handleSell(props.id)
 	}
 
 	return (
@@ -46,6 +86,15 @@ export default function Coin(props) {
 					? `US$ ${props.price.toFixed(2)}`
 					: props.price}
 			</Td>
+			{props.userLoggedIn ? <Td>{props?.balance?.toString()}</Td> : null}
+			{props.userLoggedIn && props.actions ? (
+				<Td>
+					<DivBSBtns>
+						<BuyButton onClick={handleBuyClick}>Buy</BuyButton>
+						<SellButton onClick={handleSellClick}>Sell</SellButton>
+					</DivBSBtns>
+				</Td>
+			) : null}
 			{/* <Td>{props.balance}</Td>
 			<Td>
 				<form action="#" method="POST">
