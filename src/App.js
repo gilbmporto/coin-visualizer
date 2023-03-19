@@ -79,13 +79,23 @@ function App(props) {
 	const addBalanceAndActions = async () => {
 		console.log(coinData)
 		let completeCoinData = coinData.map((coin) => {
-			return {
-				...coin,
-				balance: 0,
-				actions: {
-					buy: handleBuy,
-					sell: handleSell,
-				},
+			if (coin.balance === 0 || coin.balance === undefined) {
+				return {
+					...coin,
+					balance: 0,
+					actions: {
+						buy: handleBuy,
+						sell: handleSell,
+					},
+				}
+			} else if (coin.balance > 0) {
+				return {
+					...coin,
+					actions: {
+						buy: handleBuy,
+						sell: handleSell,
+					},
+				}
 			}
 		})
 		console.log(completeCoinData)
