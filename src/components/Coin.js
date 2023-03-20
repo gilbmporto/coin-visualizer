@@ -56,6 +56,17 @@ const Img = styled.img`
 	width: 60px;
 `
 
+const A = styled.a`
+	text-decoration: none;
+	color: white;
+	&:visited {
+		color: #e023ec;
+	}
+	&:hover {
+		text-decoration: underline;
+	}
+`
+
 export default function Coin(props) {
 	// const handleClick = (e) => {
 	// 	e.preventDefault()
@@ -76,7 +87,16 @@ export default function Coin(props) {
 
 	return (
 		<Tr>
-			<Td>{props.name}</Td>
+			<Td>
+				<A
+					href={`https://coinmarketcap.com/currencies/${props.name
+						.toLowerCase()
+						.replace(" ", "-")
+						.replace(" ", "-")}`}
+				>
+					{props.name}
+				</A>
+			</Td>
 			<Td>{props.symbol}</Td>
 			<Td>
 				<Img src={props.logo} alt="token logo" />

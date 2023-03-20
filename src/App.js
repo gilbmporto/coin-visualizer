@@ -48,7 +48,7 @@ const RefreshButton = styled.button`
 	}
 `
 
-const COIN_DATA = 10
+const COIN_DATA = 45
 
 function App(props) {
 	const [balance, setBalance] = useState(150000)
@@ -64,7 +64,6 @@ function App(props) {
 	])
 
 	useEffect(() => {
-		console.log(coinData)
 		if (coinData.length <= 1) {
 			componentDidMount()
 		}
@@ -77,7 +76,6 @@ function App(props) {
 	}, [userLoggedIn])
 
 	const addBalanceAndActions = async () => {
-		console.log(coinData)
 		let completeCoinData = coinData.map((coin) => {
 			if (coin.balance === 0 || coin.balance === undefined) {
 				return {
@@ -98,7 +96,6 @@ function App(props) {
 				}
 			}
 		})
-		console.log(completeCoinData)
 		setCoinData(completeCoinData)
 	}
 
@@ -207,8 +204,6 @@ function App(props) {
 	}
 
 	const handleBuy = (id) => {
-		// console.log(coinData)
-		// console.log(id)
 		let newCoinData = coinData.map((coin) => {
 			let newCoinBalance = coin.balance
 			// console.log(`${coin.symbol} balance before: ` + newCoinBalance)
@@ -233,8 +228,6 @@ function App(props) {
 	}
 
 	const handleSell = async (id) => {
-		// console.log(coinData)
-		// console.log(id)
 		let newCoinData = coinData.map((coin) => {
 			let newCoinBalance = parseInt(coin.balance)
 			// console.log("balance now: " + balance)
