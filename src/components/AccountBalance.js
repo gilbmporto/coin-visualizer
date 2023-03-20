@@ -4,7 +4,7 @@ import styled from "styled-components"
 const Div = styled.div`
 	padding: 10px;
 	margin-bottom: 20px;
-	width: 35vw;
+	width: 500px;
 	max-width: 500px;
 	min-width: 280px;
 	font-size: 22px;
@@ -16,13 +16,23 @@ const Div = styled.div`
 	border-radius: 15px;
 	@media screen and (max-width: 500px) {
 		width: 35vw;
-		min-width: 300px;
+		min-width: 280px;
 		text-align: center;
 	}
 `
 
-const BalanceButton = styled.button`
+const ButtonsDiv = styled.div`
 	margin-top: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	@media screen and (max-width: 500px) {
+		flex-direction: column;
+	}
+`
+
+const BalanceButton = styled.button`
 	font-size: 22px;
 	background-color: darkblue;
 	color: white;
@@ -34,6 +44,25 @@ const BalanceButton = styled.button`
 	cursor: pointer;
 	&:hover {
 		background-color: #3131e9;
+	}
+`
+
+const IncreaseBalanceButton = styled.button`
+	font-size: 22px;
+	background-color: #149c48;
+	color: white;
+	border: 2px solid white;
+	border-radius: 15px;
+	padding: 12px;
+	width: 250px;
+	margin-left: 10px;
+	text-align: center;
+	cursor: pointer;
+	&:hover {
+		background-color: #23e06b;
+	}
+	@media screen and (max-width: 500px) {
+		margin-top: 10px;
 	}
 `
 
@@ -51,7 +80,12 @@ export default function AccountBalance(props) {
 			{props.showBalance === true
 				? `Account Balance: US$ ${props.balance}`
 				: `Account Balance: US$ -`}
-			<BalanceButton onClick={toggleBalance}>{buttonText}</BalanceButton>
+			<ButtonsDiv>
+				<BalanceButton onClick={toggleBalance}>{buttonText}</BalanceButton>
+				<IncreaseBalanceButton onClick={props.handleIncreaseBalance}>
+					{"💰 Increase Balance"}
+				</IncreaseBalanceButton>
+			</ButtonsDiv>
 		</Div>
 	)
 }

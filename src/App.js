@@ -196,6 +196,12 @@ function App(props) {
 			.catch((err) => console.log(`${err.name}: ${err.message}`))
 	}
 
+	const handleIncreaseBalance = async () => {
+		let newBalance = parseFloat(balance)
+		newBalance += 2500
+		setBalance(newBalance.toFixed(2))
+	}
+
 	const handleAccess = async (loginStatus) => {
 		setUserLoggedIn(loginStatus)
 	}
@@ -264,6 +270,7 @@ function App(props) {
 						setBalance={setBalance}
 						showBalance={showBalance}
 						updateShowBalance={updateShowBalance}
+						handleIncreaseBalance={handleIncreaseBalance}
 					/>
 				) : null}
 				<RefreshButton onClick={handleRefresh}>🌀 Refresh Prices</RefreshButton>
