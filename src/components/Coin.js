@@ -93,6 +93,7 @@ export default function Coin(props) {
 						.toLowerCase()
 						.replace(" ", "-")
 						.replace(" ", "-")}`}
+					target="_blank"
 				>
 					{props.name}
 				</A>
