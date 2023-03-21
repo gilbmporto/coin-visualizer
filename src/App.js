@@ -147,24 +147,6 @@ function App(props) {
 			? (showBalanceBool = false)
 			: (showBalanceBool = true)
 		setShowBalance(showBalanceBool)
-
-		// let hiddenCoinData = coinData.map((coin) => {
-		// 	if (showBalance === false) {
-		// 		return {
-		// 			...coin,
-		// 			hiddenBalance: coin.balance,
-		// 			balance: "-",
-		// 		}
-		// 	} else {
-		// 		return {
-		// 			...coin,
-		// 			balance: coin.hiddenBalance,
-		// 			hiddenBalance: "-",
-		// 		}
-		// 	}
-		// })
-
-		// setCoinData(hiddenCoinData)
 	}
 
 	const handleRefresh = async () => {
@@ -272,6 +254,7 @@ function App(props) {
 					userLoggedIn={userLoggedIn}
 					handleBuy={handleBuy}
 					handleSell={handleSell}
+					showBalance={showBalance}
 				/>
 			</MainContainer>
 		</Div>

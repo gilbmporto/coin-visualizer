@@ -64,6 +64,7 @@ export default function CoinList(props) {
 							userLoggedIn={props.userLoggedIn}
 							handleBuy={props.handleBuy}
 							handleSell={props.handleSell}
+							showBalance={props.showBalance}
 						/>
 					))}
 				</tbody>

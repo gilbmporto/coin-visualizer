@@ -107,7 +107,9 @@ export default function Coin(props) {
 					? `US$ ${props.price.toFixed(2)}`
 					: props.price}
 			</Td>
-			{props.userLoggedIn ? <Td>{props?.balance?.toString()}</Td> : null}
+			{props.userLoggedIn ? (
+				<Td>{props.showBalance ? props?.balance?.toString() : "-"}</Td>
+			) : null}
 			{props.userLoggedIn && props.actions ? (
 				<Td>
 					<DivBSBtns>
